@@ -5,7 +5,7 @@ import java.io.File;
 import javax.swing.JFileChooser;
 
 public class FileChooser {
-
+	
 	public static String choosePath() {
 		JFileChooser fc = new JFileChooser();
 		fc.setDialogTitle("Salvar relatório");

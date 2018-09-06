@@ -7,21 +7,21 @@ import java.util.Vector;
 
 import javax.swing.JFileChooser;
 
-import com.enums.Linguagens;
-import com.view.TelaPrincipalView;
+import com.enums.Languages;
+import com.view.MainView;
 
 public class FileHandler {
 
-	private TelaPrincipalView view;
+	private MainView view;
 	private String path = "";
-	private Vector<File> pathList;
+	private static Vector<File> pathList;
 
-	public FileHandler(TelaPrincipalView view) {
+	public FileHandler(MainView view) {
 		this.view = view;
 		pathList = new Vector<File>();
 	}
 
-	public void selecionarProjeto() {
+	public void selecProject() {
 		JFileChooser fc = new JFileChooser();
 		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		int option = fc.showOpenDialog(view);
@@ -33,35 +33,35 @@ public class FileHandler {
 		path = "";
 	}
 
-	public boolean abrirProjeto() {
-		if (!verificarPath()) {
-			selecionandoArquivos();
+	public boolean openProject() {
+		if (!verifyPath()) {
+			selectFiles();
 			return true;
 		}
 		return false;
 	}
 
-	private boolean verificarPath() {
+	private boolean verifyPath() {
 		return path.equals("");
 	}
 
-	private void selecionandoArquivos() {
-		populandoListaDeArquivos(new File(path));
+	private void selectFiles() {
+		fillFileList(new File(path));
 	}
 	
-	private void populandoListaDeArquivos(File dir){
+	private void fillFileList(File dir){
 		File[] files = dir.listFiles();
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isDirectory()) {
-				populandoListaDeArquivos(files[i]);
-			} else if (verificaExtensoes(files[i].getPath())) {
+				fillFileList(files[i]);
+			} else if (verifyExtensions(files[i].getPath())) {
 				pathList.addElement(files[i]);
 			}
 		}
 	}
 	
-	private boolean verificaExtensoes(String path) {
-		for (String ext : extensoes()) {
+	private boolean verifyExtensions(String path) {
+		for (String ext : extentions()) {
 			if (path.endsWith(ext)) {
 				return true;
 			}
@@ -70,12 +70,13 @@ public class FileHandler {
 		return false;
 	}
 
-	private List<String> extensoes() {
-		return Arrays.asList(Linguagens.JAVA.toString(), Linguagens.PHP.toString(), Linguagens.C_SHARP.toString(), Linguagens.CPP.toString()
-				, Linguagens.H.toString());
+	private List<String> extentions() {
+		return Arrays.asList(Languages.JAVA.toString(), Languages.PHP.toString(), Languages.C_SHARP.toString(), 
+				Languages.CPP.toString(), Languages.H.toString());
 	}
 	
 	public Vector<File> getPathList() {
 		return pathList;
 	}
+	
 }
